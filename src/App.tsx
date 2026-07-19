@@ -11,9 +11,11 @@ export default function App() {
     const handleUrlChange = () => {
       try {
         const params = new URLSearchParams(window.location.search);
-        if (params.get('admin') === 'true') {
+        const path = window.location.pathname;
+
+        if (path === '/admin/london-stie/2026' || path === '/admin' || params.get('admin') === 'true') {
           setView('admin');
-        } else if (params.get('chat') === 'true' || params.get('channel')) {
+        } else if (path === '/support' || path === '/live-chat' || params.get('chat') === 'true' || params.get('channel')) {
           setView('chat');
           const channel = params.get('channel');
           if (channel) {
@@ -23,7 +25,7 @@ export default function App() {
           setView('home');
         }
       } catch (error) {
-        console.warn('Failed to parse URL search parameters on load:', error);
+        console.warn('Failed to parse URL on load:', error);
       }
     };
 
@@ -36,14 +38,20 @@ export default function App() {
     setView(newView);
     try {
       const url = new URL(window.location.href);
+      
+      // Reset search params and path
       url.searchParams.delete('chat');
       url.searchParams.delete('admin');
       url.searchParams.delete('channel');
 
       if (newView === 'chat') {
+        url.pathname = '/support';
         url.searchParams.set('chat', 'true');
       } else if (newView === 'admin') {
+        url.pathname = '/admin/london-stie/2026';
         url.searchParams.set('admin', 'true');
+      } else {
+        url.pathname = '/';
       }
 
       window.history.pushState({}, '', url.toString());
@@ -53,7 +61,7 @@ export default function App() {
   };
 
   return (
-    <div className="w-full min-h-screen bg-white">
+    <div className="w-full min-h-screen bg-slate-50 text-slate-900 font-sans antialiased relative">
       {view === 'home' && (
         <LandingPage onOpenChat={() => navigateTo('chat')} />
       )}
@@ -66,3 +74,4 @@ export default function App() {
     </div>
   );
 }
+
