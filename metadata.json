@@ -1,0 +1,8 @@
+{
+  "name": "PayMe Business Support Hub",
+  "description": "Professional customer support platform featuring high-end live chat, transaction tracking, and multi-agent management dashboards for PayMe Business.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
